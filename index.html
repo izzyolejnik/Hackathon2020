@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CS Checklist</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Undergraduate Computer Science Dashboard</h1>
+    </header>
+    <div id="dashboard">
+      <section id="undergraduate" class="container">
+        <h2>UCF Degree Completion</h2>
+        <div class="degreebar">
+          <div class="degreebar__value" :style="degreeBarStyles"></div>
+        </div>
+        <h3 v-if="graduate">You finished! You have a BS in Computer Science!</h3>
+        <h3 v-else>{{ message }}</h3>
+        <button v-if="graduate" @click="startDegree">Start New Degree</button>
+      </section>
+      <section id="controls" class="container">
+        <h4>Requirements</h4>
+        <button @click="completeRequirement('gep')" :disabled="completeGep">Complete 39 GEP Hours</button>
+        <button @click="completeRequirement('cpp')" :disabled="completeCpp">Complete 14 CPP Hours</button>
+        <button @click="completeRequirement('basic')" :disabled="completeBasic">Complete 30 Core Requirement Hours</button>
+        <button @click="completeRequirement('elective')" :disabled="completeElective">Take 18 CS Elective Hours</button>
+        <button @click="completeRequirement('exam')" :disabled="completeExam">Complete Foundation Exam</button>
+        <button @click="completeRequirement('resume')" :disabled="completeResume">Create a Resume</button>
+        <button @click="completeRequirement('intern')" :disabled="completeIntern">Complete an Internship</button>
+        <button @click="completeRequirement('advisor')" :disabled="completeAdvisor">Meet with Advisor</button>
+      </section>
+      <section id="goals" class="container">
+        <h4>Personal Goals</h4>
+        <input type="text" v-model="enteredGoal"/>
+        <button @click="addGoal">Add Goal</button>
+        <p v-if="(newGoals.length === 0 && compGoals.length === 0)">No personal goals have been added yet - use this to customize your experience!</p>
+        <p v-else-if="newGoals.length === 0">Good job completing all your goals so far! Add more to keep it going!</p>
+        <ul v-else>
+            <h5>Goals in Progress</h5>
+            <li v-for="(goal, index) in newGoals" @click="completeGoal(index)">{{ goal }}</li>
+        </ul>
+        <ul v-if="compGoals.length !== 0">
+            <h5>Completed Goals</h5>
+            <li v-for="goal in compGoals" >{{ goal }}</li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>
